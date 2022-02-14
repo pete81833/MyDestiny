@@ -83,7 +83,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="aHT-x2-ppm" customClass="LoadingButton" customModule="MHLoadingButton">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="aHT-x2-ppm" customClass="LoadingButton" customModule="MHLoadingButton">
                                 <rect key="frame" x="66" y="408" width="283" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.52505456110000004" green="0.59644020019999999" blue="0.86078917980000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -113,6 +113,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.52505456107981896" green="0.59644020020543842" blue="0.86078917980194092" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
+                    <connections>
+                        <outlet property="loginBtn" destination="aHT-x2-ppm" id="2Al-na-8H6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -122,6 +125,9 @@
     <designables>
         <designable name="8h2-Lj-jYB">
             <size key="intrinsicContentSize" width="88" height="28"/>
+        </designable>
+        <designable name="aHT-x2-ppm">
+            <size key="intrinsicContentSize" width="84" height="44"/>
         </designable>
         <designable name="kOH-yp-uzg">
             <size key="intrinsicContentSize" width="175.5" height="29"/>
