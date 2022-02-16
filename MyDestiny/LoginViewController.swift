@@ -8,16 +8,17 @@
 import UIKit
 import MHLoadingButton
 import FirebaseAuth
+import NVActivityIndicatorView
+import NVActivityIndicatorViewExtended
 
 class LoginViewController: UIViewController,UITextFieldDelegate {
 
     @IBOutlet weak var loginBtn: LoadingButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loginBtn.cornerRadius = 20
-        self.loginBtn.indicator = BallPulseIndicator(color: .black)
-
-        // Do any additional setup after loading the view.
+        loginBtn.cornerRadius = 20
+        loginBtn.indicator = BallPulseIndicator(color: .black)
+        
     }
     
     @IBAction func login(_ sender: LoadingButton) {
