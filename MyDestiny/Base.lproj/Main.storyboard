@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2u8-mV-jId">
-                                <rect key="frame" x="130" y="104" width="154" height="72"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyDestiny" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2u8-mV-jId">
+                                <rect key="frame" x="59.5" y="104" width="295.5" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -155,14 +155,17 @@
                             <constraint firstItem="2u8-mV-jId" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="Bel-b5-FXE"/>
                             <constraint firstItem="8h2-Lj-jYB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="66" id="CNA-rc-Gn0"/>
                             <constraint firstItem="kOH-yp-uzg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="66" id="V0a-fV-II7"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2u8-mV-jId" secondAttribute="trailing" constant="130" id="Yqp-tO-uov"/>
                             <constraint firstItem="kOH-yp-uzg" firstAttribute="top" secondItem="2u8-mV-jId" secondAttribute="bottom" constant="55" id="dT9-sn-jRw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8h2-Lj-jYB" secondAttribute="trailing" constant="66" id="daC-Uq-pp6"/>
-                            <constraint firstItem="2u8-mV-jId" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="130" id="fMN-D3-BcY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kOH-yp-uzg" secondAttribute="trailing" constant="66" id="hkH-3L-4YW"/>
                             <constraint firstItem="8h2-Lj-jYB" firstAttribute="top" secondItem="kOH-yp-uzg" secondAttribute="bottom" constant="8" id="qfr-iI-aQn"/>
+                            <constraint firstItem="2u8-mV-jId" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tZQ-8k-IPD"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="kOH-yp-uzg" id="dlE-sc-XJt"/>
+                        <outlet property="passwordTextField" destination="8h2-Lj-jYB" id="8sQ-NQ-tTw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

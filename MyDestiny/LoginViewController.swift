@@ -6,18 +6,35 @@
 //
 
 import UIKit
-import FirebaseAuth
 import FacebookLogin
-import CryptoKit
-import AuthenticationServices
+import TextFieldEffects
 
-class LoginViewController: UIViewController,UITextFieldDelegate{
+class LoginViewController: UIViewController{
     
-
+    @IBOutlet weak var emailTextField: HoshiTextField!
+    @IBOutlet weak var passwordTextField: HoshiTextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
+    
+    func errorMessage(title: String, message: String){
+        let aleart = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let aleartAction = UIAlertAction(title: "確定", style: .default, handler: nil)
+        aleart.addAction(aleartAction)
+        self.present(aleart, animated: true, completion: nil)
+    }
+    
+    
+
+}
+
+// MARK: LoginBtnFunc
+extension LoginViewController {
+    
+    
     @IBAction func fbLogin(_ sender: FBLoginButton) {
         Task{
             do{
@@ -50,7 +67,18 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
     
     @IBAction func emailLogin(_ sender: Any) {
         
-        FirebaseConnet.shardd.loginWithEmail(email: "pete81833@gmail.com", password: "1119pete") {
+        guard let email = emailTextField.text,
+              email.isEmpty == false else {
+                  self.emailTextField.shake()
+                  return
+              }
+        guard let password = passwordTextField.text,
+              password.isEmpty == false else {
+                  self.passwordTextField.shake()
+                  return
+              }
+        
+        FirebaseConnet.shardd.loginWithEmail(email: email, password: password) {
             authResult, error in
             if let error = error  {
                 print("Error: \(error)")
@@ -67,12 +95,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
         
     }
     
-    func errorMessage(title: String, message: String){
-        let aleart = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let aleartAction = UIAlertAction(title: "確定", style: .default, handler: nil)
-        aleart.addAction(aleartAction)
-        self.present(aleart, animated: true, completion: nil)
-    }
+}
+
+// MARK:  UITextFiedDelegate
+extension LoginViewController: UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -82,7 +108,16 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-
 }
 
-
+extension TextFieldEffects {
+    func shake(){
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.1
+        animation.repeatCount = 2
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x - 5, y: self.center.y - 1))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + 5, y: self.center.y + 1))
+        self.layer.add(animation, forKey: "position")
+    }
+}
