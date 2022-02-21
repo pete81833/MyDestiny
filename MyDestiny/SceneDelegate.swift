@@ -8,6 +8,7 @@
 import UIKit
 import FacebookCore
 import FacebookLogin
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,6 +20,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        SceneDelegate.checkLoginScreen(window: window)
+        
+    }
+    
+    static func checkLoginScreen(window : UIWindow?){
+        //firebase
+        if Auth.auth().currentUser != nil {
+            // User is signed in.
+            //使用者login過了
+            //產生storyboard物件
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            //產生tabbar controller畫面
+            let tabVC  = storyboard.instantiateViewController(withIdentifier: "tabVC")
+            window?.rootViewController = tabVC
+        } else {
+            // No user is signed in.
+            // ...
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -15,6 +15,10 @@ class ViewController: UIViewController {
         
     }
 
-
+    @IBAction func signOut(_ sender: Any) {
+        try? FirebaseConnet.shardd.signOut()
+        self.performSegue(withIdentifier: "loginVC", sender: nil)
+    }
+    
 }
 

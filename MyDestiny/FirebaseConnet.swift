@@ -14,6 +14,11 @@ import UIKit
 import CryptoKit
 import AuthenticationServices
 
+protocol FirebaseConnetDelegate {
+    func errorWithApple(error: NSError)
+    func sucessLoginWithApple()
+}
+
 class FirebaseConnet: NSObject {
     
     typealias DoneHandler = ((AuthDataResult?, Error?) -> Void)
@@ -25,6 +30,7 @@ class FirebaseConnet: NSObject {
     }
     
     var presentViewController: UIViewController?
+    var delegate: FirebaseConnetDelegate?
     
     static let shardd = FirebaseConnet()
     
@@ -129,6 +135,12 @@ class FirebaseConnet: NSObject {
         })
         
     }
+    
+    func signOut() throws{
+        let firebaseAuth = Auth.auth()
+        try firebaseAuth.signOut()
+    }
+    
 }
 
 
@@ -159,8 +171,11 @@ extension FirebaseConnet: ASAuthorizationControllerDelegate{
                     do{
                         try await self.registerUserToFirebase(credential: credential)
                         print("apple 註冊成功")
+                        self.delegate?.sucessLoginWithApple()
+                        
                     }catch{
                         print(error)
+                        self.delegate?.errorWithApple(error: error as NSError)
                     }
                 }
                 
@@ -187,6 +202,8 @@ extension FirebaseConnet: ASAuthorizationControllerDelegate{
         }
         
         print("didCompleteWithError: \(error.localizedDescription)")
+        self.delegate?.errorWithApple(error: error as NSError)
+        
     }
     
 }

@@ -27,6 +27,12 @@ class LoginViewController: UIViewController{
         self.present(aleart, animated: true, completion: nil)
     }
     
+    func goHomePage(){
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "homeVC", sender: nil)
+        }
+    }
+    
     
 
 }
@@ -40,6 +46,7 @@ extension LoginViewController {
             do{
                 try await FirebaseConnet.shardd.loginWithFacebook(viewController: self)
                 // TODO: 換頁
+                self.goHomePage()
             }catch{
                 print(error.localizedDescription)
                 self.errorMessage(title: "登入失敗", message: "Facebook登入錯誤")
@@ -53,6 +60,7 @@ extension LoginViewController {
                 try await FirebaseConnet.shardd.LoginWithGoogle(viewController: self)
                 print("Google登入成功")
                 // TODO: 換頁
+                self.goHomePage()
             }catch{
                 print(error.localizedDescription)
                 self.errorMessage(title: "登入失敗", message: "Google登入錯誤")
@@ -62,6 +70,7 @@ extension LoginViewController {
     }
     
     @IBAction func appleLogin(_ sender: Any) {
+        FirebaseConnet.shardd.delegate = self
         FirebaseConnet.shardd.loginWithApple(viewController: self)
     }
     
@@ -82,7 +91,7 @@ extension LoginViewController {
             authResult, error in
             if let error = error  {
                 print("Error: \(error)")
-                self.errorMessage(title: "登入錯誤" , message: "\(error)")
+                self.errorMessage(title: "登入錯誤" , message: "email帳密錯誤")
                 return
             }
             guard let user = authResult?.user else{
@@ -90,11 +99,25 @@ extension LoginViewController {
                 return
             }
             print("email: \(user.email) , userInfo?\(user.uid),\(user.email),\(user.displayName),\(user.photoURL)")
+            self.goHomePage()
             
         }
         
     }
     
+}
+
+// MARK:  FirebaseConnetDelegate
+extension LoginViewController: FirebaseConnetDelegate {
+    func sucessLoginWithApple() {
+        
+        self.goHomePage()
+        
+    }
+    
+    func errorWithApple(error: NSError) {
+        errorMessage(title: "登入錯誤", message: "apple登入錯誤")
+    }
 }
 
 // MARK:  UITextFiedDelegate
