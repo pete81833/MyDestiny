@@ -29,7 +29,14 @@ class LoginViewController: UIViewController{
     
     func goHomePage(){
         DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "homeVC", sender: nil)
+            // ...
+            // after login is done, maybe put this in the login web service completion block
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
+            
+            // This is to get the SceneDelegate object from your view controller
+            // then call the change root view controller function to change to main tab bar
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
         }
     }
     
@@ -44,7 +51,7 @@ extension LoginViewController {
     @IBAction func fbLogin(_ sender: FBLoginButton) {
         Task{
             do{
-                try await FirebaseConnet.shardd.loginWithFacebook(viewController: self)
+                try await FirebaseConnet.shared.loginWithFacebook(viewController: self)
                 // TODO: 換頁
                 self.goHomePage()
             }catch{
@@ -57,7 +64,7 @@ extension LoginViewController {
     @IBAction func googleLogin(_ sender: Any) {
         Task{
             do{
-                try await FirebaseConnet.shardd.LoginWithGoogle(viewController: self)
+                try await FirebaseConnet.shared.LoginWithGoogle(viewController: self)
                 print("Google登入成功")
                 // TODO: 換頁
                 self.goHomePage()
@@ -70,8 +77,8 @@ extension LoginViewController {
     }
     
     @IBAction func appleLogin(_ sender: Any) {
-        FirebaseConnet.shardd.delegate = self
-        FirebaseConnet.shardd.loginWithApple(viewController: self)
+        FirebaseConnet.shared.delegate = self
+        FirebaseConnet.shared.loginWithApple(viewController: self)
     }
     
     @IBAction func emailLogin(_ sender: Any) {
@@ -87,7 +94,7 @@ extension LoginViewController {
                   return
               }
         
-        FirebaseConnet.shardd.loginWithEmail(email: email, password: password) {
+        FirebaseConnet.shared.loginWithEmail(email: email, password: password) {
             authResult, error in
             if let error = error  {
                 print("Error: \(error)")

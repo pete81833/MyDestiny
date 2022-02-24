@@ -25,19 +25,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     static func checkLoginScreen(window : UIWindow?){
+        //產生storyboard物件
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         //firebase
         if Auth.auth().currentUser != nil {
             // User is signed in.
             //使用者login過了
-            //產生storyboard物件
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
             //產生tabbar controller畫面
-            let tabVC  = storyboard.instantiateViewController(withIdentifier: "tabVC")
-            window?.rootViewController = tabVC
+            let tabBarController  = storyboard.instantiateViewController(withIdentifier: "TabBarController")
+            window?.rootViewController = tabBarController
         } else {
             // No user is signed in.
-            // ...
+            let signInNavigationController = storyboard.instantiateViewController(withIdentifier: "SignInNavigationController")
+            window?.rootViewController = signInNavigationController
         }
+    }
+    
+    func changeRootViewController(_ vc: UIViewController, animated: Bool = true) {
+        guard let window = self.window else {
+            return
+        }
+        // change the root view controller to your specific view controller
+        window.rootViewController = vc
+        
+        UIView.transition(with: window,
+                              duration: 0.5,
+                          options: [.transitionFlipFromLeft],
+                              animations: nil,
+                              completion: nil)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -82,5 +97,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
     }
 
+    
 }
 

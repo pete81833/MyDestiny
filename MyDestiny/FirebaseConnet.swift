@@ -32,7 +32,7 @@ class FirebaseConnet: NSObject {
     var presentViewController: UIViewController?
     var delegate: FirebaseConnetDelegate?
     
-    static let shardd = FirebaseConnet()
+    static let shared = FirebaseConnet()
     
     private override init(){}
     

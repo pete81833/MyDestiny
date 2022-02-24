@@ -16,8 +16,15 @@ class ViewController: UIViewController {
     }
 
     @IBAction func signOut(_ sender: Any) {
-        try? FirebaseConnet.shardd.signOut()
-        self.performSegue(withIdentifier: "loginVC", sender: nil)
+        do{
+            try FirebaseConnet.shared.signOut()
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let loginNavController = storyboard.instantiateViewController(identifier: "SignInNavigationController")
+
+                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(loginNavController)
+        }catch{
+            print(error.localizedDescription)
+        }
     }
     
 }
