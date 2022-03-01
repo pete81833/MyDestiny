@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import FacebookLogin
 import TextFieldEffects
+import FirebaseAuth
 
 class LoginViewController: UIViewController{
     
@@ -48,10 +48,12 @@ class LoginViewController: UIViewController{
 extension LoginViewController {
     
     
-    @IBAction func fbLogin(_ sender: FBLoginButton) {
+    @IBAction func fbLogin(_ sender: Any) {
+        
         Task{
             do{
-                try await FirebaseConnet.shared.loginWithFacebook(viewController: self)
+                let credential = try await SignIn.shared.loginWithFacebook(viewController: self)
+                try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
                 // TODO: 換頁
                 self.goHomePage()
             }catch{
@@ -64,8 +66,9 @@ extension LoginViewController {
     @IBAction func googleLogin(_ sender: Any) {
         Task{
             do{
-                try await FirebaseConnet.shared.LoginWithGoogle(viewController: self)
+                let credential = try await SignIn.shared.LoginWithGoogle(viewController: self)
                 print("Google登入成功")
+                try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
                 // TODO: 換頁
                 self.goHomePage()
             }catch{
@@ -77,12 +80,11 @@ extension LoginViewController {
     }
     
     @IBAction func appleLogin(_ sender: Any) {
-        FirebaseConnet.shared.delegate = self
-        FirebaseConnet.shared.loginWithApple(viewController: self)
+        SignIn.shared.delegate = self
+        SignIn.shared.loginWithApple(viewController: self)
     }
     
     @IBAction func emailLogin(_ sender: Any) {
-        
         guard let email = emailTextField.text,
               email.isEmpty == false else {
                   self.emailTextField.shake()
@@ -94,7 +96,8 @@ extension LoginViewController {
                   return
               }
         
-        FirebaseConnet.shared.loginWithEmail(email: email, password: password) {
+        // 用email登入就會直接幫你串到firebase上了，不需要credential
+        SignIn.shared.loginWithEmail(email: email, password: password, viewController: self) {
             authResult, error in
             if let error = error  {
                 print("Error: \(error)")
@@ -109,17 +112,25 @@ extension LoginViewController {
             self.goHomePage()
             
         }
-        
     }
     
 }
 
 // MARK:  FirebaseConnetDelegate
-extension LoginViewController: FirebaseConnetDelegate {
-    func sucessLoginWithApple() {
-        
-        self.goHomePage()
-        
+extension LoginViewController: SignInDelegate {
+   
+    func sucessLoginWithApple(credential: OAuthCredential) {
+        Task{
+            do{
+                try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
+                print("apple 註冊成功")
+                //TODO: 換頁
+                self.goHomePage()
+            }catch{
+                print(error.localizedDescription)
+                errorMessage(title: "登入錯誤", message: "apple帳號無法使用，請使用別的登入方式")
+            }
+        }
     }
     
     func errorWithApple(error: NSError) {

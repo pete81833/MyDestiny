@@ -87,9 +87,12 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVF-dq-eWt" customClass="FBSDKLoginButton">
-                                <rect key="frame" x="66" y="509" width="282" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVF-dq-eWt" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="66" y="503" width="282" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="3R0-Jz-5kx"/>
+                                    <constraint firstAttribute="width" constant="282" id="teg-I1-ede"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Sign in with Facebook" cornerStyle="capsule">
                                     <backgroundConfiguration key="background" strokeWidth="2.5">
@@ -102,9 +105,12 @@
                                     <action selector="fbLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DK9-cf-KGP"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o90-4X-h19">
-                                <rect key="frame" x="66" y="583" width="282" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o90-4X-h19">
+                                <rect key="frame" x="66" y="568" width="282" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="282" id="Okt-cy-soG"/>
+                                    <constraint firstAttribute="height" constant="45" id="uQp-ED-GHu"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Sign in with Google" cornerStyle="capsule">
                                     <backgroundConfiguration key="background" strokeWidth="2.5">
@@ -117,9 +123,12 @@
                                     <action selector="googleLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Di-Rd-98j"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5E-gZ-wbJ">
-                                <rect key="frame" x="66" y="657" width="282" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5E-gZ-wbJ">
+                                <rect key="frame" x="66" y="633" width="282" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="B1J-yx-N4T"/>
+                                    <constraint firstAttribute="width" constant="282" id="EZs-LP-yTh"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Sign in with Apple" cornerStyle="capsule">
                                     <backgroundConfiguration key="background" strokeWidth="2.5">
@@ -132,9 +141,12 @@
                                     <action selector="appleLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4r8-ep-MeS"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UDC-3z-Pb6">
-                                <rect key="frame" x="66" y="426" width="282" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UDC-3z-Pb6">
+                                <rect key="frame" x="66" y="428" width="282" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="x5x-TM-8v0"/>
+                                    <constraint firstAttribute="width" constant="282" id="ymT-K7-7qv"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Sign In" cornerStyle="capsule">
                                     <backgroundConfiguration key="background" strokeWidth="2.5">
@@ -148,32 +160,71 @@
                                     <action selector="emailLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nuh-tA-hcj"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have account ?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fU2-vi-uo8">
+                                <rect key="frame" x="114.5" y="698" width="185" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Fdf-L7-SyE"/>
+                                    <constraint firstAttribute="width" constant="185" id="gQp-ko-mUb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XsJ-Bn-Yxf">
+                                <rect key="frame" x="168.5" y="746" width="77" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="D8L-b9-gNz"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="SignUp">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="lqW-CS-Q9I" kind="show" id="hB8-M6-nCm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.52505456107981896" green="0.59644020020543842" blue="0.86078917980194092" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="o90-4X-h19" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5fn-RQ-91R"/>
                             <constraint firstItem="2u8-mV-jId" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="Bel-b5-FXE"/>
                             <constraint firstItem="8h2-Lj-jYB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="66" id="CNA-rc-Gn0"/>
+                            <constraint firstItem="eVF-dq-eWt" firstAttribute="top" secondItem="UDC-3z-Pb6" secondAttribute="bottom" constant="30" id="EKh-iT-pEp"/>
+                            <constraint firstItem="fU2-vi-uo8" firstAttribute="top" secondItem="S5E-gZ-wbJ" secondAttribute="bottom" constant="20" id="MId-CH-7M3"/>
+                            <constraint firstItem="XsJ-Bn-Yxf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="PDk-8O-1W0"/>
                             <constraint firstItem="kOH-yp-uzg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="66" id="V0a-fV-II7"/>
                             <constraint firstItem="kOH-yp-uzg" firstAttribute="top" secondItem="2u8-mV-jId" secondAttribute="bottom" constant="55" id="dT9-sn-jRw"/>
+                            <constraint firstItem="UDC-3z-Pb6" firstAttribute="top" secondItem="8h2-Lj-jYB" secondAttribute="bottom" constant="25" id="dXS-fN-9Iq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8h2-Lj-jYB" secondAttribute="trailing" constant="66" id="daC-Uq-pp6"/>
+                            <constraint firstItem="S5E-gZ-wbJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dup-kB-NcZ"/>
+                            <constraint firstItem="o90-4X-h19" firstAttribute="top" secondItem="eVF-dq-eWt" secondAttribute="bottom" constant="20" id="fPk-u7-BxV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kOH-yp-uzg" secondAttribute="trailing" constant="66" id="hkH-3L-4YW"/>
+                            <constraint firstItem="XsJ-Bn-Yxf" firstAttribute="top" secondItem="fU2-vi-uo8" secondAttribute="bottom" constant="8" id="jGn-W0-Cjm"/>
+                            <constraint firstItem="S5E-gZ-wbJ" firstAttribute="top" secondItem="o90-4X-h19" secondAttribute="bottom" constant="20" id="lN7-ir-atZ"/>
                             <constraint firstItem="8h2-Lj-jYB" firstAttribute="top" secondItem="kOH-yp-uzg" secondAttribute="bottom" constant="8" id="qfr-iI-aQn"/>
+                            <constraint firstItem="UDC-3z-Pb6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="r3l-iA-afe"/>
                             <constraint firstItem="2u8-mV-jId" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tZQ-8k-IPD"/>
+                            <constraint firstItem="fU2-vi-uo8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vti-mF-45D"/>
+                            <constraint firstItem="eVF-dq-eWt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wHW-Q9-xnw"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                <color key="value" red="0.52505456110000004" green="0.59644020019999999" blue="0.86078917980000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" id="Tr9-bM-Pta"/>
                     <connections>
                         <outlet property="emailTextField" destination="kOH-yp-uzg" id="dlE-sc-XJt"/>
                         <outlet property="passwordTextField" destination="8h2-Lj-jYB" id="8sQ-NQ-tTw"/>
-                        <segue destination="lqW-CS-Q9I" kind="show" id="9Th-jH-dgb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6" y="84"/>
+            <point key="canvasLocation" x="-7.2463768115942031" y="83.705357142857139"/>
         </scene>
-        <!--Sign uP-->
+        <!--Sign Up-->
         <scene sceneID="NWG-0W-uX0">
             <objects>
                 <viewController id="lqW-CS-Q9I" sceneMemberID="viewController">
@@ -183,13 +234,13 @@
                         <viewLayoutGuide key="safeArea" id="M3e-9G-VaA"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Sign uP" id="sFS-er-v36"/>
+                    <navigationItem key="navigationItem" title="Sign Up" id="sFS-er-v36"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JxJ-4n-i38" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="832" y="84"/>
         </scene>
-        <!--Item 1-->
+        <!--View Controller-->
         <scene sceneID="6e9-RR-IGk">
             <objects>
                 <viewController id="pHx-ya-FH4" customClass="ViewController" customModule="MyDestiny" customModuleProvider="target" sceneMemberID="viewController">
@@ -198,7 +249,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRA-fo-K01">
-                                <rect key="frame" x="170" y="391" width="75" height="31"/>
+                                <rect key="frame" x="170" y="684" width="75" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="signOut"/>
@@ -210,13 +261,13 @@
                         <viewLayoutGuide key="safeArea" id="Zzv-Op-oSE"/>
                         <color key="backgroundColor" red="0.52505456110000004" green="0.59644020019999999" blue="0.86078917980000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="8TT-UP-hBA"/>
+                    <tabBarItem key="tabBarItem" title="" image="house" catalog="system" selectedImage="house.fill" id="8TT-UP-hBA"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10N-ie-vfx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2650.7246376811595" y="-319.41964285714283"/>
         </scene>
-        <!--message-->
+        <!--View Controller-->
         <scene sceneID="gXl-3w-6IJ">
             <objects>
                 <viewController id="ra9-gU-1XX" sceneMemberID="viewController">
@@ -226,11 +277,11 @@
                         <viewLayoutGuide key="safeArea" id="Se6-mP-AmG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="message" image="message" catalog="system" id="2cF-Ok-amf"/>
+                    <tabBarItem key="tabBarItem" title="" image="message" catalog="system" selectedImage="message.fill" id="2cF-Ok-amf"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mau-L0-IGV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2651" y="522"/>
+            <point key="canvasLocation" x="2651" y="540"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Pzw-Ao-7Uf">
@@ -280,7 +331,10 @@
         </designable>
     </designables>
     <resources>
+        <image name="house" catalog="system" width="128" height="106"/>
+        <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="message" catalog="system" width="128" height="113"/>
+        <image name="message.fill" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
