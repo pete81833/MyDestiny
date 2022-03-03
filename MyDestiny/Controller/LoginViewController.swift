@@ -8,12 +8,15 @@
 import UIKit
 import TextFieldEffects
 import FirebaseAuth
+import NVActivityIndicatorView
+import NVActivityIndicatorViewExtended
 
-class LoginViewController: UIViewController{
+class LoginViewController: UIViewController, NVActivityIndicatorViewable{
     
     @IBOutlet weak var emailTextField: HoshiTextField!
     @IBOutlet weak var passwordTextField: HoshiTextField!
     
+    let size = CGSize(width: 30, height: 30)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +24,7 @@ class LoginViewController: UIViewController{
     }
     
     func errorMessage(title: String, message: String){
+        self.stopAnimating(nil)
         let aleart = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let aleartAction = UIAlertAction(title: "確定", style: .default, handler: nil)
         aleart.addAction(aleartAction)
@@ -29,6 +33,7 @@ class LoginViewController: UIViewController{
     
     func goHomePage(){
         DispatchQueue.main.async {
+            self.stopAnimating(nil)
             // ...
             // after login is done, maybe put this in the login web service completion block
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -44,32 +49,38 @@ class LoginViewController: UIViewController{
 
 }
 
-// MARK: LoginBtnFunc
+// MARK: LoginBtnFunction 
 extension LoginViewController {
     
     
     @IBAction func fbLogin(_ sender: Any) {
-        
+        startAnimating(size, message: "Loading...", type: .ballScaleRipple, fadeInAnimation: nil)
         Task{
             do{
                 let credential = try await SignIn.shared.loginWithFacebook(viewController: self)
+                DispatchQueue.main.async {
+                    NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
+                }
                 try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
-                // TODO: 換頁
                 self.goHomePage()
             }catch{
                 print(error.localizedDescription)
+                //TODO: 重複email帳號處理
                 self.errorMessage(title: "登入失敗", message: "Facebook登入錯誤")
             }
         }
     }
     
     @IBAction func googleLogin(_ sender: Any) {
+        startAnimating(size, message: "Loading...", type: .ballScaleRipple, fadeInAnimation: nil)
         Task{
             do{
                 let credential = try await SignIn.shared.LoginWithGoogle(viewController: self)
                 print("Google登入成功")
+                DispatchQueue.main.async {
+                    NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
+                }
                 try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
-                // TODO: 換頁
                 self.goHomePage()
             }catch{
                 print(error.localizedDescription)
@@ -80,6 +91,7 @@ extension LoginViewController {
     }
     
     @IBAction func appleLogin(_ sender: Any) {
+        startAnimating(size, message: "Loading...", type: .ballScaleRipple, fadeInAnimation: nil)
         SignIn.shared.delegate = self
         SignIn.shared.loginWithApple(viewController: self)
     }
@@ -95,7 +107,7 @@ extension LoginViewController {
                   self.passwordTextField.shake()
                   return
               }
-        
+        startAnimating(size, message: "Loading...", type: .ballScaleRipple, fadeInAnimation: nil)
         // 用email登入就會直接幫你串到firebase上了，不需要credential
         SignIn.shared.loginWithEmail(email: email, password: password, viewController: self) {
             authResult, error in
@@ -109,6 +121,9 @@ extension LoginViewController {
                 return
             }
             print("email: \(user.email) , userInfo?\(user.uid),\(user.email),\(user.displayName),\(user.photoURL)")
+            DispatchQueue.main.async {
+                NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
+            }
             self.goHomePage()
             
         }
@@ -122,9 +137,11 @@ extension LoginViewController: SignInDelegate {
     func sucessLoginWithApple(credential: OAuthCredential) {
         Task{
             do{
+                DispatchQueue.main.async {
+                    NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
+                }
                 try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
                 print("apple 註冊成功")
-                //TODO: 換頁
                 self.goHomePage()
             }catch{
                 print(error.localizedDescription)

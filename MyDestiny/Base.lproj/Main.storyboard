@@ -171,12 +171,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XsJ-Bn-Yxf">
-                                <rect key="frame" x="168.5" y="746" width="77" height="34"/>
+                                <rect key="frame" x="166.5" y="746" width="81.5" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="D8L-b9-gNz"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="SignUp">
+                                <buttonConfiguration key="configuration" style="plain" title="Sign Up">
                                     <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -241,33 +241,6 @@
             <point key="canvasLocation" x="832" y="84"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="6e9-RR-IGk">
-            <objects>
-                <viewController id="pHx-ya-FH4" customClass="ViewController" customModule="MyDestiny" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="GMw-hF-1Nx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRA-fo-K01">
-                                <rect key="frame" x="170" y="684" width="75" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="signOut"/>
-                                <connections>
-                                    <action selector="signOut:" destination="pHx-ya-FH4" eventType="touchUpInside" id="LAK-E7-EMH"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Zzv-Op-oSE"/>
-                        <color key="backgroundColor" red="0.52505456110000004" green="0.59644020019999999" blue="0.86078917980000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="house" catalog="system" selectedImage="house.fill" id="8TT-UP-hBA"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="10N-ie-vfx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2650.7246376811595" y="-319.41964285714283"/>
-        </scene>
-        <!--View Controller-->
         <scene sceneID="gXl-3w-6IJ">
             <objects>
                 <viewController id="ra9-gU-1XX" sceneMemberID="viewController">
@@ -294,7 +267,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="pHx-ya-FH4" kind="relationship" relationship="viewControllers" id="p5H-fV-TuR"/>
+                        <segue destination="wwR-nN-3FF" kind="relationship" relationship="viewControllers" id="p5H-fV-TuR"/>
                         <segue destination="ra9-gU-1XX" kind="relationship" relationship="viewControllers" id="H4l-2k-EwB"/>
                     </connections>
                 </tabBarController>
@@ -320,6 +293,70 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fQF-w7-FbQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-855.07246376811599" y="83.705357142857139"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="I9S-MW-WZh">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wwR-nN-3FF" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="house" catalog="system" selectedImage="house.fill" id="8TT-UP-hBA"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Unc-mc-9ce">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zE4-LI-d6l" kind="relationship" relationship="rootViewController" id="tNh-6N-UJl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E15-iH-0pR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2650.7246376811595" y="-319.41964285714283"/>
+        </scene>
+        <!--Search Table View Controller-->
+        <scene sceneID="NXw-NU-FR7">
+            <objects>
+                <tableViewController id="zE4-LI-d6l" customClass="SearchTableViewController" customModule="MyDestiny" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="zi6-uF-lR4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="peripheralCell" id="TjS-bu-skc">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TjS-bu-skc" id="GRK-hA-l35">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="zE4-LI-d6l" id="f6R-t5-cxE"/>
+                            <outlet property="delegate" destination="zE4-LI-d6l" id="fB9-4j-p1q"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="qwD-lp-pQD">
+                        <barButtonItem key="leftBarButtonItem" title="Sign Out" id="n0O-sz-9iw">
+                            <connections>
+                                <action selector="signOut:" destination="zE4-LI-d6l" id="8Ng-RN-YC0"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="RbC-DG-gzb">
+                            <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="N9W-jq-mex">
+                                <rect key="frame" x="343" y="6.5" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="switchBtnPressed:" destination="fZ3-Uw-lz9" eventType="valueChanged" id="vXe-xw-zeP"/>
+                                </connections>
+                            </switch>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OOH-zm-Zdl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="fZ3-Uw-lz9" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3497" y="-317"/>
         </scene>
     </scenes>
     <designables>
