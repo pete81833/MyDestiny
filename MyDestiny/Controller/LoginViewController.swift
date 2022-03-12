@@ -61,7 +61,7 @@ extension LoginViewController {
                 DispatchQueue.main.async {
                     NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
                 }
-                try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
+                try await FirebaseConnect.shared.registerUserToFirebase(credential: credential)
                 self.goHomePage()
             }catch{
                 print(error.localizedDescription)
@@ -80,7 +80,7 @@ extension LoginViewController {
                 DispatchQueue.main.async {
                     NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
                 }
-                try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
+                try await FirebaseConnect.shared.registerUserToFirebase(credential: credential)
                 self.goHomePage()
             }catch{
                 print(error.localizedDescription)
@@ -140,7 +140,7 @@ extension LoginViewController: SignInDelegate {
                 DispatchQueue.main.async {
                     NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
                 }
-                try await FirebaseConnet.shared.registerUserToFirebase(credential: credential)
+                try await FirebaseConnect.shared.registerUserToFirebase(credential: credential)
                 print("apple 註冊成功")
                 self.goHomePage()
             }catch{
@@ -178,4 +178,19 @@ extension TextFieldEffects {
         animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + 5, y: self.center.y + 1))
         self.layer.add(animation, forKey: "position")
     }
+}
+
+extension String {
+    func validateEmail() -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: self)
+    }
+    
+    func validatePassword() -> Bool {
+        let passwordRegEx = "^[a-zA-Z0-9]{6,12}$"
+        let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
+        return passwordPred.evaluate(with: self)
+    }
+    
 }

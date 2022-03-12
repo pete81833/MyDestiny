@@ -17,8 +17,11 @@ class SearchTableViewController: UITableViewController {
     var willDiscoverServices = [CBService]()
     var info = ""
     
-    let targetServiceUUIDs = [CBUUID(string: "8888")] //: [CBUUID]? = nil
-    let targetCharUUIDs = [CBUUID(string: "8889")] //: [CBUUID]? = nil
+    //let targetServiceUUIDs: [CBUUID]? = nil
+    //let targetCharUUIDs: [CBUUID]? = nil
+    
+    let targetServiceUUIDs = [CBUUID(string: "1234")] //: [CBUUID]? = nil
+    let targetCharUUIDs = [CBUUID(string: "1234")] //: [CBUUID]? = nil
     var talkingChar: CBCharacteristic?
     var shouldTalkingAfterFound = false
     
@@ -42,7 +45,7 @@ class SearchTableViewController: UITableViewController {
     
     @IBAction func signOut(_ sender: Any) {
         do{
-            try FirebaseConnet.shared.signOut()
+            try FirebaseConnect.shared.signOut()
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let loginNavController = storyboard.instantiateViewController(identifier: "SignInNavigationController")
 
@@ -136,9 +139,9 @@ class SearchTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        if let vc = segue.destination as? TalkingViewController{
-            vc.talkingChar = talkingChar
-        }
+//        if let vc = segue.destination as? TalkingViewController{
+//            vc.talkingChar = talkingChar
+//        }
     }
 
 
@@ -232,6 +235,20 @@ extension SearchTableViewController: CBPeripheralDelegate{
         // 9)
     }
     
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        if let error = error {
+            print("didDiscoverCharacteristicsFor: \(error)")
+            return
+        }
+        guard let data = characteristic.value
+              //let text = String(data: data, encoding: .utf8)
+        else {
+            print("接不到")
+            return
+        }
+        print("text = \(data)")
+    }
+    
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         // 10)
         // 17)...
@@ -247,32 +264,24 @@ extension SearchTableViewController: CBPeripheralDelegate{
         }
         info += "*** Service: \(service.uuid) : \(characteristics.count)\n"
         // 11)
-        for characteristic in characteristics {
-            info += "* characteristic.: \(characteristic.uuid)"
-            if shouldTalkingAfterFound {
-                talkingChar = characteristic
-                performSegue(withIdentifier: "goTalking", sender: nil)
-                return
-            }else{
-                //TODO:  處理 characteristic
-                
-            }
             
-        }
+        peripheral.readValue(for: characteristics.first!)
+            
         
-        // Next step
-        if willDiscoverServices.isEmpty {
-            // all done
-            // 12a) - End
-            showAlert(message: info)
-            manager.cancelPeripheralConnection(peripheral)
-        } else {
-            // Process to next service
-            // 12b)
-            handleNextService(of: peripheral)
-            // 15)
-        }
-        // 16)
+        
+//        // Next step
+//        if willDiscoverServices.isEmpty {
+//            // all done
+//            // 12a) - End
+//            //showAlert(message: info)
+//            manager.cancelPeripheralConnection(peripheral)
+//        } else {
+//            // Process to next service
+//            // 12b)
+//            handleNextService(of: peripheral)
+//            // 15)
+//        }
+//        // 16)
     }
     
     func handleNextService(of peripheral: CBPeripheral) {

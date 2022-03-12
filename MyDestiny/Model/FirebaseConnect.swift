@@ -15,11 +15,11 @@ protocol FirebaseConnetDelegate {
     func sucessLoginWithApple()
 }
 
-class FirebaseConnet: NSObject {
+class FirebaseConnect: NSObject {
     
     var delegate: FirebaseConnetDelegate?
     
-    static let shared = FirebaseConnet()
+    static let shared = FirebaseConnect()
     
     private override init(){}
     
