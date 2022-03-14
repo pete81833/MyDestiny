@@ -52,7 +52,7 @@ class InterestViewController: UIViewController {
     @IBAction func finishBtnPressed(_ sender: Any) {
         if self.selectTags.count > 4 {
             for interestName in selectTags.keys {
-                User.shared.interests?.append(interestName)
+                User.shared.interests.append(interestName)
             }
             
             performSegue(withIdentifier: "goSelectPhoto", sender: nil)

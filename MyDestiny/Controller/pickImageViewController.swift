@@ -20,7 +20,6 @@ class pickImageViewController: UIViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
         imageView.addGestureRecognizer(tapGR)
         imageView.isUserInteractionEnabled = true
-        
         imagePickerController.delegate = self
     }
     
@@ -32,9 +31,15 @@ class pickImageViewController: UIViewController {
                 let alertAction = UIAlertAction(title: "確定", style: .default)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
-                return
             } else {
                 User.shared.userImage = image.jpegData(compressionQuality: 0.5)
+                FirebaseConnect.shared.uploadUserData { error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        print("上傳失敗")
+                        return
+                    }
+                }
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
                 

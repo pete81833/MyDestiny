@@ -393,7 +393,7 @@
                                 <rect key="frame" x="343" y="6.5" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="switchBtnPressed:" destination="zE4-LI-d6l" eventType="valueChanged" id="T6i-ag-btv"/>
+                                    <action selector="scanSwitchPressed:" destination="zE4-LI-d6l" eventType="valueChanged" id="vGY-sq-7N2"/>
                                 </connections>
                             </switch>
                         </barButtonItem>
@@ -406,7 +406,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Fdg-bF-mFI">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zix-pX-OsS" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="signUpNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="zix-pX-OsS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="2NO-Y4-xdx"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="pLa-Kk-neO">

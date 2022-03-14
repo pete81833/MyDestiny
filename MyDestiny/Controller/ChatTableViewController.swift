@@ -12,6 +12,10 @@ class ChatTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        var jsonData = try? JSONSerialization.data(withJSONObject: User.shared.userData, options: .prettyPrinted)
+        var jsonString = String(data: jsonData!, encoding: .utf8)
+        print("我要的資料： \(jsonData) \(jsonString)")
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

@@ -125,7 +125,7 @@ class SignUpViewController: UIViewController {
             return
         }
         User.shared.userName = name
-        print(User.shared.userName!)
+        print(User.shared.userName)
         performSegue(withIdentifier: "goBirthday", sender: nil)
     }
     
@@ -137,7 +137,7 @@ class SignUpViewController: UIViewController {
                   return
               }
         User.shared.birthday = birthday
-        print(User.shared.birthday!)
+        print(User.shared.birthday)
         performSegue(withIdentifier: "goGender", sender: nil)
         
     }

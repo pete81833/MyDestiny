@@ -10,6 +10,8 @@ import CoreBluetooth
 
 protocol CentralDelegate{
     func centralManagerChangeState(message: String)
+    func didSucessGetValue(content: Data)
+    func didDiscoverPeripheral(allItem: [String: DiscoveredItem])
 }
 
 class Central: NSObject {
@@ -83,15 +85,15 @@ extension Central: CBCentralManagerDelegate {
         // Check if we should reload tableview.
         if existItem == nil || now.timeIntervalSince(lastRefreshDate) > 1.0 {
             lastRefreshDate = now
-            //TODO: 把掃到得item丟回去，讓外面知道總共有幾個peripheral
-            
+            //TODO: 把掃到得item丟回去，讓外面知道總共有幾個peripheral，給tableView用
+            delegate?.didDiscoverPeripheral(allItem: allItems)
             // 與peripheral 連線
             connectPeripheral()
         }
         
     }
     
-    // 判斷是否連接過的方法
+    // 連接peripheral
     private func connectPeripheral(){
         // 先判斷是否已經連接過了
         for item in allItems.keys {
@@ -101,7 +103,7 @@ extension Central: CBCentralManagerDelegate {
             }){
                 // 連接Peripheral
                 manager.connect(allItems[item]!.peripheral, options: nil)
-                //TODO:  下面要放到取完資料的地方
+                // 把連線過的 item 放進 connectedItems陣列
                 connectedItems[item] = allItems[item]
             }
         }
@@ -182,17 +184,9 @@ extension Central: CBPeripheralDelegate{
             assertionFailure("Invalid charateristics.")
             return
         }
-        
+        // readValue 很重要要read才能取資料
         peripheral.readValue(for: characteristics.first!)
         
-        // Next step
-        if willDiscoverServices.isEmpty {
-            // 如果陣列空了,就停止連接目前的peripheral
-            manager.cancelPeripheralConnection(peripheral)
-        } else {
-            // Process to next service
-            handleNextService(of: peripheral)
-        }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -200,13 +194,21 @@ extension Central: CBPeripheralDelegate{
             print("didDiscoverCharacteristicsFor: \(error)")
             return
         }
-        guard let data = characteristic.value,
-              let text = String(data: data, encoding: .utf8)
+        guard let data = characteristic.value
         else {
             print("接不到")
             return
         }
-        print("text = \(text)")
+        delegate?.didSucessGetValue(content: data)
+        if peripheral.state == .connected {
+            manager.cancelPeripheralConnection(peripheral)
+        }
     }
     
+}
+
+struct DiscoveredItem{
+    let peripheral: CBPeripheral
+    let rssi: Int
+    let lastSeen: Date
 }

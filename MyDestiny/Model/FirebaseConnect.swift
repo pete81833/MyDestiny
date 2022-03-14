@@ -18,6 +18,7 @@ protocol FirebaseConnetDelegate {
 class FirebaseConnect: NSObject {
     
     var delegate: FirebaseConnetDelegate?
+    let db = Firestore.firestore()
     
     static let shared = FirebaseConnect()
     
@@ -34,5 +35,25 @@ class FirebaseConnect: NSObject {
         try firebaseAuth.signOut()
     }
     
+    func getUserData(completion: @escaping (DocumentSnapshot?, Error?) -> Void) {
+        guard let currentUser = Auth.auth().currentUser else {
+            assertionFailure("Fail to get currentUser")
+            return
+        }
+        let uid = currentUser.uid
+        let docRef = db.collection("Users").document(uid)
+        docRef.getDocument(completion: completion)
+    }
+    
+    func uploadUserData(completion: @escaping ((Error?) -> Void)) {
+        guard let currentUser = Auth.auth().currentUser else {
+            assertionFailure("Fail to get currentUser")
+            return
+        }
+        let uid = currentUser.uid
+        let docRef = db.collection("Users").document(uid)
+        let userData: [String: Any] = User.shared.userData
+        docRef.setData(userData, completion: completion)
+    }
 }
 
