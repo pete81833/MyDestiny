@@ -8,6 +8,7 @@
 import UIKit
 import TextFieldEffects
 
+// 這個viewController 對應三個view 分別是 輸入名字 輸入生日 性別及性向
 class SignUpViewController: UIViewController {
 
     @IBOutlet weak var maleBtn: UIButton!
@@ -25,6 +26,7 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 設定按鈕樣式
         if let maleBtn = self.maleBtn,
            let femaleBtn = self.femaleBtn,
            let likeMaleBtn = self.likeMaleBtn,
@@ -41,9 +43,9 @@ class SignUpViewController: UIViewController {
 
         
     }
-    
+    // 按下textField可以編輯日期
     @IBAction func editDate(_ sender: HoshiTextField) {
-        
+        // 設定datePicker
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .inline
         datePicker.tintColor = UIColor(named: "VeryPeri")
@@ -54,7 +56,7 @@ class SignUpViewController: UIViewController {
         toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
         toolBar.sizeToFit()
         
-        // Adding Button ToolBar
+        // Adding  ToolBar Button
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneClick))
         doneButton.tintColor = UIColor(named: "VeryPeri")
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -63,60 +65,65 @@ class SignUpViewController: UIViewController {
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         sender.inputAccessoryView = toolBar
-        
+        // 設定datePicker到 textField 的 inputView
         sender.inputView = datePicker
     }
-    
+    // toolbar Done Action
     @objc func doneClick(){
         let dateFormatter1 = DateFormatter()
         dateFormatter1.dateStyle = .long
         dateFormatter1.timeStyle = .none
+        User.shared.birthday = datePicker.date
         dateTextField.text = dateFormatter1.string(from: datePicker.date)
         dateTextField.resignFirstResponder()
     }
-    
+    // toobar cancle action
     @objc func cancelClick(){
         dateTextField.resignFirstResponder()
     }
-    
+    // 性別二選一
     @IBAction func genderBtnPressed(_ sender: UIButton) {
         if sender == maleBtn{
             self.gender = true
             femaleBtn.tintColor = UIColor(named: "VolcanicGlass")
             femaleBtn.backgroundColor = UIColor(named: "CloudDancer")
             femaleBtn.layer.borderColor = UIColor(named: "VolcanicGlass")?.cgColor
-            maleBtn.tintColor = UIColor(named: "VeryPeri")
+            maleBtn.tintColor = UIColor(named: "CloudDancer")
             maleBtn.layer.borderColor = UIColor(named: "VeryPeri")?.cgColor
-            
+            maleBtn.backgroundColor = UIColor(named: "VeryPeri")
                         
         } else if sender == femaleBtn{
             self.gender = false
             maleBtn.tintColor = UIColor(named: "VolcanicGlass")
             maleBtn.backgroundColor = UIColor(named: "CloudDancer")
             maleBtn.layer.borderColor = UIColor(named: "VolcanicGlass")?.cgColor
-            femaleBtn.tintColor = UIColor(named: "VeryPeri")
+            femaleBtn.tintColor = UIColor(named: "CloudDancer")
             femaleBtn.layer.borderColor = UIColor(named: "VeryPeri")?.cgColor
+            femaleBtn.backgroundColor = UIColor(named: "VeryPeri")
         }
     }
+    // 性向二選一
     @IBAction func sexualityBtnPressed(_ sender: UIButton) {
         if sender == likeMaleBtn {
             self.sexuality = true
             likeFemaleBtn.tintColor = UIColor(named: "VolcanicGlass")
             likeFemaleBtn.backgroundColor = UIColor(named: "CloudDancer")
             likeFemaleBtn.layer.borderColor = UIColor(named: "VolcanicGlass")?.cgColor
-            likeMaleBtn.tintColor = UIColor(named: "VeryPeri")
+            likeMaleBtn.tintColor = UIColor(named: "CloudDancer")
             likeMaleBtn.layer.borderColor = UIColor(named: "VeryPeri")?.cgColor
+            likeMaleBtn.backgroundColor = UIColor(named: "VeryPeri")
         } else if sender == likeFemaleBtn {
             self.sexuality = false
             likeMaleBtn.tintColor = UIColor(named: "VolcanicGlass")
             likeMaleBtn.backgroundColor = UIColor(named: "CloudDancer")
             likeMaleBtn.layer.borderColor = UIColor(named: "VolcanicGlass")?.cgColor
-            likeFemaleBtn.tintColor = UIColor(named: "VeryPeri")
+            likeFemaleBtn.tintColor = UIColor(named: "CloudDancer")
             likeFemaleBtn.layer.borderColor = UIColor(named: "VeryPeri")?.cgColor
+            likeFemaleBtn.backgroundColor = UIColor(named: "VeryPeri")
         }
     }
     
-    
+    // 確認是否填寫名字
     @IBAction func checkNameBtnPressed(_ sender: Any) {
         
         guard let name = self.nameTextField.text,
@@ -129,6 +136,7 @@ class SignUpViewController: UIViewController {
         performSegue(withIdentifier: "goBirthday", sender: nil)
     }
     
+    //  確認是否填寫生日
     @IBAction func checkBirthdayBtnPressed(_ sender: Any) {
         
         guard let birthday = self.dateTextField.text,
@@ -136,12 +144,12 @@ class SignUpViewController: UIViewController {
                   dateTextField.shake()
                   return
               }
-        User.shared.birthday = birthday
         print(User.shared.birthday)
         performSegue(withIdentifier: "goGender", sender: nil)
         
     }
     
+    // 確認是否填寫性別及性向
     @IBAction func checkGenderAndSexualityBtnPressed(_ sender: Any) {
         guard let gender = gender,
               let sexuality = sexuality else {
@@ -154,9 +162,6 @@ class SignUpViewController: UIViewController {
         performSegue(withIdentifier: "goInterest", sender: nil)
         
     }
-    
-    
-    
     
     
     // MARK: - Navigation
@@ -172,7 +177,7 @@ class SignUpViewController: UIViewController {
 
 // MARK:  UITextFiedDelegate
 extension SignUpViewController: UITextFieldDelegate{
-    
+    // 關鍵盤
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

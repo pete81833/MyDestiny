@@ -10,6 +10,7 @@ import Firebase
 import FacebookCore
 import FacebookLogin
 import GoogleSignIn
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { granted, error in
+            if granted {
+                print("使用者同意了")
+            }
+            else {
+                print("使用者不同意")
+            }
+            
+        })
+        UNUserNotificationCenter.current().delegate = self
+       
         
         ApplicationDelegate.shared.application(
             application,
@@ -55,6 +68,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return GIDSignIn.sharedInstance.handle(url)
     }
-
+    
 }
 
+
+extension AppDelegate: UNUserNotificationCenterDelegate{
+    
+    //1. App is running in foreground and receive a remote notification.
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        print("willPresent userInfo: \(userInfo)")
+        completionHandler([.sound,.banner,.badge])
+        
+    }
+    
+    //2. App is suspended in background , and user click notification in NotificationCenter.
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        print("didReceive response userInfo:\(userInfo)")
+        completionHandler()
+    }
+    
+    
+    
+    
+    
+}

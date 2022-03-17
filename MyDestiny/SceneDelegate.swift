@@ -32,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // User is signed in.
             //使用者login過了
             //產生tabbar controller畫面
+            User.shared.uid = Auth.auth().currentUser?.uid
             let tabBarController  = storyboard.instantiateViewController(withIdentifier: "TabBarController")
             window?.rootViewController = tabBarController
         } else {

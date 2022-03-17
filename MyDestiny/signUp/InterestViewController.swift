@@ -24,7 +24,7 @@ class InterestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // 設定tagView and tag 並把tag 加入 tagView
         tagListView.delegate = self
         tagListView.textFont = UIFont.systemFont(ofSize: 25)
         tagListView.alignment = .center
@@ -34,14 +34,13 @@ class InterestViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(tagListView.frame.height)
+        // 設定scrollView 內容Constraint heght 讓高度Constraint符合tagView height
         var maxY = CGFloat(0)
         for view in tagListView.subviews{
             if view.frame.maxY >= maxY {
                 maxY = view.frame.maxY
             }
         }
-        print(maxY)
         let heightConstraint = NSLayoutConstraint(item: tagListView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: maxY)
         self.tagListView.addConstraint(heightConstraint)
     }
@@ -50,11 +49,11 @@ class InterestViewController: UIViewController {
     
     
     @IBAction func finishBtnPressed(_ sender: Any) {
+        // 確認是否有選5個興趣
         if self.selectTags.count > 4 {
             for interestName in selectTags.keys {
                 User.shared.interests.append(interestName)
             }
-            
             performSegue(withIdentifier: "goSelectPhoto", sender: nil)
         }
     }
@@ -72,8 +71,9 @@ class InterestViewController: UIViewController {
 }
 
 extension InterestViewController: TagListViewDelegate{
+    // 當tag被點選後會觸發
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
-        
+        // 判斷是tag有沒有被選過
         if tagView.isSelected {
             tagView.borderColor = UIColor(named: "VolcanicGlass")
             tagView.textColor = UIColor(named: "Anthracite")!
@@ -81,6 +81,7 @@ extension InterestViewController: TagListViewDelegate{
             self.checkInterstBtn.titleLabel?.text = "繼續 " + "\(selectTags.count)/5"
             tagView.isSelected = false
         } else {
+            // 判斷被選的tag有沒有超過5個
             if selectTags.count < 5{
                 selectTags[(tagView.titleLabel?.text)!] = tagView
                 self.checkInterstBtn.titleLabel?.text = "繼續 " + "\(selectTags.count)/5"
@@ -88,13 +89,14 @@ extension InterestViewController: TagListViewDelegate{
                 tagView.textColor = UIColor(named: "VeryPeri")!
                 tagView.isSelected = true
             } else {
+                // 超過的還選的話會又觸動回饋
                 // 初始化 UIImpactFeedbackGenerator
                 let generator = UIImpactFeedbackGenerator(style: .rigid)
                 // 觸發回饋
                 generator.impactOccurred()            }
         }
         
-        print(selectTags)
+        print(selectTags.keys)
         
     }
 }

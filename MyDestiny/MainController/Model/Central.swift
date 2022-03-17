@@ -205,6 +205,9 @@ extension Central: CBPeripheralDelegate{
         }
     }
     
+    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+        peripheral.discoverServices(targetServiceUUIDs)
+    }
 }
 
 struct DiscoveredItem{

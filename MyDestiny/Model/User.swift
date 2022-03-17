@@ -13,19 +13,24 @@ class User {
     private init(){}
     
     var userName: String = ""
-    var birthday: String = ""
+    var birthday = Date() 
     var gender: Bool = true
     var sexuality: Bool = true
     var interests: [String] = []
     var userImage: Data?
-    var userData: [String: Any]{
+    var uid: String?
+    
+    var userData: [String: Any] {
         var data = [String: Any]()
         data["username"] = userName
         data["birthday"] = birthday
         data["gender"] = gender
         data["sexuality"] = sexuality
         data["interests"] = interests
+        data["UID"] = uid
         return data
     }
+    
+    
     
 }

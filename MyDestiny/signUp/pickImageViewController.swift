@@ -16,7 +16,7 @@ class pickImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        // 設定imageView觸發事件
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
         imageView.addGestureRecognizer(tapGR)
         imageView.isUserInteractionEnabled = true
@@ -24,8 +24,8 @@ class pickImageViewController: UIViewController {
     }
     
     @IBAction func finishBtnPressed(_ sender: Any) {
+        // 判斷有沒有選圖片
         if let image = imageView.image  {
-            
             if image == UIImage(systemName: "person.crop.square"){
                 let alert = UIAlertController(title: "錯誤", message: "請選取一張照片", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "確定", style: .default)
@@ -40,39 +40,29 @@ class pickImageViewController: UIViewController {
                         return
                     }
                 }
+                
+                FirebaseConnect.shared.uploadFile()
+                // 換頁
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarController")
-                
-                // This is to get the SceneDelegate object from your view controller
-                // then call the change root view controller function to change to main tab bar
                 (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
             }
         }
     }
-    
+    // imageView touch action
     @objc func imageTapped(sender: UITapGestureRecognizer) {
         imagePickerController.sourceType = .photoLibrary
         self.present(imagePickerController, animated: true, completion: nil)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
 extension pickImageViewController: UIImagePickerControllerDelegate {
+    // 選到照片後會觸發
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             self.imageView.image = image
         }
-        
         picker.dismiss(animated: true, completion: nil)
     }
 }
