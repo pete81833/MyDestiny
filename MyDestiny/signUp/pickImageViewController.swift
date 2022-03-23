@@ -20,6 +20,7 @@ class pickImageViewController: UIViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
         imageView.addGestureRecognizer(tapGR)
         imageView.isUserInteractionEnabled = true
+        imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
     }
     
@@ -60,9 +61,11 @@ class pickImageViewController: UIViewController {
 extension pickImageViewController: UIImagePickerControllerDelegate {
     // 選到照片後會觸發
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.originalImage] as? UIImage {
+        if let image = info[.editedImage] as? UIImage {
             self.imageView.image = image
+            User.shared.userImage = image.jpegData(compressionQuality: 0.5)
         }
+        
         picker.dismiss(animated: true, completion: nil)
     }
 }

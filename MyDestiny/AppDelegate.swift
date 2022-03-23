@@ -69,6 +69,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return GIDSignIn.sharedInstance.handle(url)
     }
     
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0 // clear badge count
+    }
 }
 
 
@@ -88,9 +91,5 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
         print("didReceive response userInfo:\(userInfo)")
         completionHandler()
     }
-    
-    
-    
-    
     
 }

@@ -19,12 +19,13 @@ class SearchTableViewController: UITableViewController {
     var allItems = [String: DiscoveredItem]()
     let dateFormatter = DateFormatter()
     var qualifieds: [Qualified] = []
+    let userDefault = UserDefaults()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // 檢查userData 是否存在
-        checkUserData()
+        
         
         central = Central()
         central?.delegate = self
@@ -32,14 +33,25 @@ class SearchTableViewController: UITableViewController {
         peripheral = Peripheral()
         peripheral?.delegate = self
         
-        
-        
-        
+        checkUserData()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let userBlocks = userDefault.value(forKey: "blocks") as? Array<String> {
+            var i = 0
+            for qualified in qualifieds {
+                for blockID in userBlocks {
+                    if qualified.uid == blockID {
+                        self.qualifieds.remove(at: i)
+                    }
+                }
+                i += 1
+            }
+        }
+        self.tableView.reloadData()
+        
     }
     
     func checkUserData(){
@@ -67,29 +79,62 @@ class SearchTableViewController: UITableViewController {
                  print("User didn't have match user")
                  return
              }
-             for matchUserUID in matchUser.keys {
-                 FirebaseConnect.shared.getTargetInfo(UID: matchUserUID) { targetResult, error in
-                     if let error = error {
-                         print("Fail to get match user info")
-                         print(error.localizedDescription)
-                         return
+             if let blockIDs = self.userDefault.value(forKey: "blocks") as? Array<String>  {
+                 let matchUserIdSet = Set(matchUser.keys)
+                 let blockUserIdSet = Set(blockIDs)
+                 let vaildUserIdSet = matchUserIdSet.subtracting(blockUserIdSet)
+                 let vailUserIds = Array(vaildUserIdSet)
+                 print(vailUserIds)
+                 for matchUserUID in vailUserIds {
+                     FirebaseConnect.shared.getTargetInfo(UID: matchUserUID) { targetResult, error in
+                         if let error = error {
+                             print("Fail to get match user info")
+                             print(error.localizedDescription)
+                             return
+                         }
+                         guard let target = targetResult?.data() else {
+                             print("Fail to get match user info")
+                             return
+                         }
+                         let name = target["username"] as! String
+                         let birthday = (target["birthday"] as! Timestamp).dateValue()
+                         let age = self.calculateAge(date: birthday)
+                         let interests = target["interests"] as! [String]
+                         let q = Qualified(name: name, age: age, interests: interests, uid: matchUserUID, chatUID: matchUser[matchUserUID]!)
+                         print(q)
+                         self.qualifieds.append(q)
+                         self.tableView.reloadData()
                      }
-                     guard let target = targetResult?.data() else {
-                         print("Fail to get match user info")
-                         return
+                 }
+             } else {
+                 for matchUserUID in matchUser.keys {
+                     FirebaseConnect.shared.getTargetInfo(UID: matchUserUID) { targetResult, error in
+                         if let error = error {
+                             print("Fail to get match user info")
+                             print(error.localizedDescription)
+                             return
+                         }
+                         guard let target = targetResult?.data() else {
+                             print("Fail to get match user info")
+                             return
+                         }
+                         let name = target["username"] as! String
+                         let birthday = (target["birthday"] as! Timestamp).dateValue()
+                         let age = self.calculateAge(date: birthday)
+                         let interests = target["interests"] as! [String]
+                         let q = Qualified(name: name, age: age, interests: interests, uid: matchUserUID, chatUID: matchUser[matchUserUID]!)
+                         print(q)
+                         self.qualifieds.append(q)
+                         self.tableView.reloadData()
                      }
-                     let name = target["username"] as! String
-                     let birthday = (target["birthday"] as! Timestamp).dateValue()
-                     let age = self.calculateAge(date: birthday)
-                     let interests = target["interests"] as! [String]
-                     let q = Qualified(name: name, age: age, interests: interests, uid: matchUserUID, chatUID: matchUser[matchUserUID]!)
-                     print(q)
-                     self.qualifieds.append(q)
-                     self.tableView.reloadData()
                  }
              }
          }
      }
+    
+    func getMatchUser(matchs: [String]){
+        
+    }
     
     func calculateAge(date: Date) -> Int {
         let calendar = Calendar.current
@@ -161,6 +206,7 @@ class SearchTableViewController: UITableViewController {
         content.title = "配對成功"
         content.body = "成功配對，趕快來認識\(message)"
         content.sound = UNNotificationSound.default
+        content.badge
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
         let request = UNNotificationRequest(identifier: "notification", content: content, trigger: trigger)
@@ -186,10 +232,21 @@ class SearchTableViewController: UITableViewController {
         }
     }
     
+    func clearUser(){
+        User.shared.uid = ""
+        User.shared.userName = ""
+        User.shared.birthday = Date()
+        User.shared.gender = true
+        User.shared.sexuality = true
+        User.shared.interests = []
+        User.shared.userImage = nil
+    }
+    
     // 登出
     @IBAction func signOut(_ sender: Any) {
         do{
             try FirebaseConnect.shared.signOut()
+            clearUser()
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let loginNavController = storyboard.instantiateViewController(identifier: "SignInNavigationController")
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(loginNavController)

@@ -20,7 +20,8 @@ class ChatViewController: UIViewController {
     var messageItems = [MessageItem]()
     var target: Qualified?
     var chatID: String?
- 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -134,6 +135,26 @@ class ChatViewController: UIViewController {
         self.inputTextField.text = ""
     }
     
+    @objc func textViewLongTouchAction(sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: self.tableView)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let reportAction = UIAlertAction(title: "檢舉", style: .destructive) { action in
+            print("\(location)")
+            guard let indexPath = self.tableView.indexPathForRow(at: location) else {
+                print("Fail to get indexPath")
+                return
+            }
+            let content = self.messageItems.remove(at: indexPath.row)
+            FirebaseConnect.shared.reportDirtyWord(dirtyWord: content.message)
+            self.tableView.deleteRows(at: [indexPath], with: .right)
+            self.showAlert(message: "檢舉成功，我們已經收到您檢舉")
+            //TODO: firebse 刪除聊天訊息
+        }
+        let cancleAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alert.addAction(reportAction)
+        alert.addAction(cancleAction)
+        self.present(alert, animated: true, completion: nil)
+    }
     
 }
 
@@ -149,9 +170,13 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        var longTouchAction = UILongPressGestureRecognizer(target: self, action: #selector(textViewLongTouchAction))
+        
         if messageItems[indexPath.row].uid == User.shared.uid {
             let cell = tableView.dequeueReusableCell(withIdentifier: "meCell", for: indexPath) as! FromMeTableViewCell
             let message = messageItems[indexPath.row]
+            cell.gestureRecognizers?.removeAll()
+            cell.addGestureRecognizer(longTouchAction)
             cell.textView.text = message.message
             cell.textView.layer.cornerRadius = 10
             cell.textView.clipsToBounds = true
@@ -163,6 +188,8 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource{
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "targetCell", for: indexPath) as! FromTargetTableViewCell
             let message = messageItems[indexPath.row]
+            cell.gestureRecognizers?.removeAll()
+            cell.addGestureRecognizer(longTouchAction)
             cell.textView.text = message.message
             cell.textView.layer.cornerRadius = 10
             cell.textView.clipsToBounds = true

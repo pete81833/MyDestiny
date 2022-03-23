@@ -47,7 +47,10 @@ class SignUpViewController: UIViewController {
     @IBAction func editDate(_ sender: HoshiTextField) {
         // 設定datePicker
         datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .inline
+        datePicker.preferredDatePickerStyle = .wheels
+        if #available(iOS 14, *) {
+            datePicker.preferredDatePickerStyle = .inline
+        }
         datePicker.tintColor = UIColor(named: "VeryPeri")
         // ToolBar
         let toolBar = UIToolbar()

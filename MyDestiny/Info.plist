@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -21,10 +25,10 @@
 	</array>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<false/>
-    <key>FacebookAutoLogAppEventsEnabled</key>
-    <false/>
 	<key>FacebookAppID</key>
 	<string>1331530847271062</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<false/>
 	<key>FacebookClientToken</key>
 	<string>964493ef022554330773a312110b881c</string>
 	<key>FacebookDisplayName</key>
@@ -58,7 +62,6 @@
 		<string>bluetooth-central</string>
 		<string>bluetooth-peripheral</string>
 		<string>fetch</string>
-		<string>location</string>
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>

@@ -77,6 +77,11 @@ class FirebaseConnect: NSObject {
         
     }
     
+    func a(){
+        
+        
+    }
+    
     func uploadFile(){
         guard let uid = User.shared.uid else {
             print("Fail to get UserUID")
@@ -105,9 +110,8 @@ class FirebaseConnect: NSObject {
     }
     
     func creatChat(chatID: String, userUID: String, targetUID: String){
-        
-        
-        
+        let number = Int.random(in: 0...10)
+        sleep(UInt32(number))
         let checkref = db.collection("Users").document(userUID)
         checkref.getDocument { result, error in
             if let error = error {
@@ -144,8 +148,6 @@ class FirebaseConnect: NSObject {
                 targetRef.setData(["match":[userUID:chatID]], merge: true)
             }
         }
-        
-        
     }
     
     func sendMessage(chatID: String, number: String, message: String, uid: String){
@@ -158,5 +160,20 @@ class FirebaseConnect: NSObject {
         targetRef.getDocument(completion: completion)
     }
     
+    func reportUser(uid: String, content: String){
+        let reportRef = db.collection("watchList").document(uid)
+        reportRef.updateData(["reason":FieldValue.arrayUnion([content])]) { error in
+            if let e = error {
+                print("udate fail \(e)")
+                reportRef.setData(["reason":FieldValue.arrayUnion([content])])
+            }
+        }
+    }
+    
+    func reportDirtyWord(dirtyWord: String){
+        let uid = NSUUID().uuidString
+        let reportRef = db.collection("dirtyWord").document(uid)
+        reportRef.setData(["dirtyWord":dirtyWord])
+    }
 }
 

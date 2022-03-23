@@ -47,8 +47,26 @@ class TargetViewController: UIViewController {
         if segue.identifier == "goTalk" {
             let vc = segue.destination as! ChatViewController
             vc.target = self.target
+        }else if segue.identifier == "report" {
+            let nc = segue.destination as! UINavigationController
+            let vc = nc.viewControllers.first as! ReportViewController
+            vc.reportUserID = target?.uid
+            vc.delegate = self
         }
     }
-    
 
+}
+
+extension TargetViewController: ReportViewControllerDelegate {
+    
+    func finishReport() {
+        let alert = UIAlertController(title: "成功", message: "我們已經收到您的檢舉，若審核證實，將會email通知", preferredStyle: .alert)
+        let action = UIAlertAction(title: "確認", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
