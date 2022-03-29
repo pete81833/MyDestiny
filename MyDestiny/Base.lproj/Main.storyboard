@@ -309,7 +309,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="wwR-nN-3FF" kind="relationship" relationship="viewControllers" id="p5H-fV-TuR"/>
-                        <segue destination="fkw-LM-Z0I" kind="relationship" relationship="viewControllers" id="8nu-P5-6I4"/>
+                        <segue destination="3Al-g9-Oon" kind="relationship" relationship="viewControllers" id="8nu-P5-6I4"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="go1-Fu-5hL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -325,13 +325,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WZQ-i5-zuZ">
-                                <rect key="frame" x="57" y="124" width="300" height="269"/>
+                                <rect key="frame" x="57" y="128" width="300" height="269"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="RY6-cc-STc"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lvf-Tp-Xr7" customClass="TagListView" customModule="TagListView">
-                                <rect key="frame" x="57" y="516" width="300" height="281"/>
+                                <rect key="frame" x="57" y="520" width="300" height="277"/>
                                 <color key="backgroundColor" name="CloudDancer"/>
                                 <color key="tintColor" name="Anthracite"/>
                                 <userDefinedRuntimeAttributes>
@@ -377,7 +377,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGz-nr-9HX">
-                                <rect key="frame" x="159" y="401" width="96" height="31"/>
+                                <rect key="frame" x="159" y="405" width="96" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="編輯大頭貼"/>
                                 <connections>
@@ -385,7 +385,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ps6-82-2RU">
-                                <rect key="frame" x="171" y="448" width="72" height="36"/>
+                                <rect key="frame" x="171" y="452" width="72" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -404,12 +404,17 @@
                             <constraint firstItem="lvf-Tp-Xr7" firstAttribute="centerX" secondItem="iDL-Ja-qnd" secondAttribute="centerX" id="pMw-1d-28v"/>
                             <constraint firstItem="qGz-nr-9HX" firstAttribute="top" secondItem="WZQ-i5-zuZ" secondAttribute="bottom" constant="8" id="s7B-Ox-Abi"/>
                             <constraint firstItem="lvf-Tp-Xr7" firstAttribute="top" secondItem="Ps6-82-2RU" secondAttribute="bottom" constant="32" id="trw-tI-Cfz"/>
-                            <constraint firstItem="WZQ-i5-zuZ" firstAttribute="top" secondItem="IiG-yy-MEN" secondAttribute="top" constant="80" id="uqa-Il-pvL"/>
+                            <constraint firstItem="WZQ-i5-zuZ" firstAttribute="top" secondItem="IiG-yy-MEN" secondAttribute="top" constant="40" id="uqa-Il-pvL"/>
                             <constraint firstItem="Ps6-82-2RU" firstAttribute="top" secondItem="qGz-nr-9HX" secondAttribute="bottom" constant="16" id="zNX-QM-fct"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="person" catalog="system" id="8da-fO-Ki1"/>
-                    <navigationItem key="navigationItem" id="LSq-Hb-krQ"/>
+                    <navigationItem key="navigationItem" id="LSq-Hb-krQ">
+                        <barButtonItem key="rightBarButtonItem" title="黑名單" id="NYX-hS-Ib2">
+                            <connections>
+                                <segue destination="4PC-Oe-cTD" kind="show" id="DLE-y2-lcA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="WZQ-i5-zuZ" id="hwa-Vw-IAX"/>
                         <outlet property="tagListView" destination="lvf-Tp-Xr7" id="Kl2-Ws-1Bt"/>
@@ -418,7 +423,39 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xKL-rX-J9e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3877" y="1815"/>
+            <point key="canvasLocation" x="4786.9565217391309" y="1814.7321428571427"/>
+        </scene>
+        <!--黑名單-->
+        <scene sceneID="Esh-iK-nld">
+            <objects>
+                <tableViewController id="4PC-Oe-cTD" customClass="BlockTableViewController" customModule="MyDestiny" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="QPI-aa-7x3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" name="CloudDancer"/>
+                        <color key="sectionIndexBackgroundColor" name="CloudDancer"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="4Vk-nu-mNp">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Vk-nu-mNp" id="9jq-PV-AEG">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" name="CloudDancer"/>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="4PC-Oe-cTD" id="RFI-99-XIh"/>
+                            <outlet property="delegate" destination="4PC-Oe-cTD" id="aiY-fY-viA"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="黑名單" id="Bh2-Uz-vMb"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="63N-fM-NvT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5600" y="1814.7321428571427"/>
         </scene>
         <!--Eula View Controller-->
         <scene sceneID="x4e-VL-AN1">
@@ -486,6 +523,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YVV-H3-nsk">
                                 <rect key="frame" x="66" y="429.5" width="10" height="36.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
@@ -656,7 +694,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xbG-YR-I2a"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="CloudDancer"/>
                         <constraints>
                             <constraint firstItem="D4G-yo-x18" firstAttribute="leading" secondItem="xbG-YR-I2a" secondAttribute="leading" constant="10" id="Kso-Kp-pDB"/>
                             <constraint firstItem="n5K-qT-7Yw" firstAttribute="top" secondItem="xbG-YR-I2a" secondAttribute="top" constant="10" id="Sdj-rU-QXm"/>
@@ -784,7 +822,7 @@
                             </barButtonItem>
                             <barButtonItem image="exclamationmark.circle" catalog="system" id="5oQ-a7-ZSc">
                                 <connections>
-                                    <segue destination="6iS-M5-wR1" kind="presentation" identifier="report" id="THL-ci-TgQ"/>
+                                    <action selector="reportBtnPressed:" destination="CYO-HH-Upn" id="4mz-4L-8GI"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -794,6 +832,7 @@
                         <outlet property="imageView" destination="v5q-3t-mYP" id="eTJ-Xe-2x9"/>
                         <outlet property="nameLable" destination="4PK-oQ-jfW" id="hRh-bc-SY4"/>
                         <outlet property="tagView" destination="Jke-WP-HkE" id="hb8-k1-PxG"/>
+                        <segue destination="6iS-M5-wR1" kind="presentation" identifier="report" id="bjW-kH-rC1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YTq-9B-Dy4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1428,6 +1467,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XzU-3v-HSm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5569.5652173913049" y="289.95535714285711"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="1SS-qo-Vg4">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3Al-g9-Oon" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="person" catalog="system" id="8da-fO-Ki1"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qmo-pO-SiD">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fkw-LM-Z0I" kind="relationship" relationship="rootViewController" id="WNu-ca-cu8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eZe-7X-V9L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3876.811594202899" y="1814.7321428571427"/>
         </scene>
     </scenes>
     <designables>

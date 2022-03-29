@@ -7,15 +7,10 @@
 
 import UIKit
 
-protocol ReportViewControllerDelegate {
-    func finishReport()
-}
 
 class ReportViewController: UIViewController {
 
     var reportUserID: String?
-    let userDefault = UserDefaults()
-    var delegate: ReportViewControllerDelegate?
     
     @IBOutlet weak var textView: UITextView!
     override func viewDidLoad() {
@@ -52,23 +47,12 @@ class ReportViewController: UIViewController {
         }
 
         FirebaseConnect.shared.reportUser(uid: reportUserID, content: reportContent)
-        
-        if let userBlocks = userDefault.value(forKey: "blocks") as? Array<String> {
-            var blocks = userBlocks
-            blocks.append(reportUserID)
-            userDefault.set(blocks, forKey: "blocks")
-            self.showAlert(message: "我們已收到您的檢舉")
-            print(userDefault.value(forKey: "blocks"))
-            self.dismiss(animated: true) {
-                self.delegate?.finishReport()
-            }
-        }else {
-            userDefault.set([reportUserID], forKey: "blocks")
-            print(userDefault.value(forKey: "blocks"))
-            self.dismiss(animated: true) {
-                self.delegate?.finishReport()
-            }
+        let alert = UIAlertController(title: "成功", message: "我們已經收到您的檢舉，審核成功後會email通知", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "確認", style: .default) { _ in
+            self.dismiss(animated: true)
         }
+        alert.addAction(alertAction)
+        present(alert, animated: true, completion: nil)
         
     }
     

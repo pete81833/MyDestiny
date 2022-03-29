@@ -8,13 +8,18 @@
 import UIKit
 import TagListView
 
+protocol TargetViewControllerDelegate {
+    func finishAddBlock()
+}
+
 class TargetViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLable: UILabel!
-    
     @IBOutlet weak var ageLable: UILabel!
     @IBOutlet weak var tagView: TagListView!
     var target: Qualified?
+    let userDefault = UserDefaults()
+    var delegate: TargetViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +48,40 @@ class TargetViewController: UIViewController {
         }
     }
  
+    @IBAction func reportBtnPressed(_ sender: Any) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let reportAction = UIAlertAction(title: "檢舉", style: .destructive) { _ in
+            self.performSegue(withIdentifier: "report", sender: nil)
+        }
+        let addToBlock = UIAlertAction(title: "加入黑名單", style: .default) { _ in
+            
+            let alert = UIAlertController(title: "黑名單", message: "是否要將此用戶加入黑名單，加入後就無法移除", preferredStyle: .alert)
+            let action = UIAlertAction(title: "確認", style: .destructive) { _ in
+                if let userBlocks = self.userDefault.value(forKey: "blocks") as? [String:String] {
+                    var blocks = userBlocks
+                    blocks[self.target!.uid] = self.target!.name
+                    self.userDefault.set(blocks, forKey: "blocks")
+                    self.navigationController?.popViewController(animated: true)
+                    self.delegate?.finishAddBlock()
+                } else {
+                    self.userDefault.set([self.target!.uid:self.target!.name], forKey: "blocks")
+                    self.navigationController?.popViewController(animated: true)
+                    self.delegate?.finishAddBlock()
+                }
+            }
+            let actionCancle = UIAlertAction(title: "取消", style: .default, handler: nil)
+            alert.addAction(action)
+            alert.addAction(actionCancle)
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+        let cancleAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        alert.addAction(reportAction)
+        alert.addAction(addToBlock)
+        alert.addAction(cancleAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goTalk" {
             let vc = segue.destination as! ChatViewController
@@ -51,22 +90,7 @@ class TargetViewController: UIViewController {
             let nc = segue.destination as! UINavigationController
             let vc = nc.viewControllers.first as! ReportViewController
             vc.reportUserID = target?.uid
-            vc.delegate = self
         }
     }
 
-}
-
-extension TargetViewController: ReportViewControllerDelegate {
-    
-    func finishReport() {
-        let alert = UIAlertController(title: "成功", message: "我們已經收到您的檢舉，若審核證實，將會email通知", preferredStyle: .alert)
-        let action = UIAlertAction(title: "確認", style: .default) { _ in
-            self.navigationController?.popViewController(animated: true)
-        }
-        
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
 }

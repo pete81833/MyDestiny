@@ -52,6 +52,7 @@ class FirebaseConnect: NSObject {
             return
         }
         let uid = currentUser.uid
+        User.shared.uid = uid
         let docRef = db.collection("Users").document(uid)
         var userData: [String: Any] = User.shared.userData
         userData["birthday"] = Timestamp(date: userData["birthday"] as! Date)
@@ -77,10 +78,6 @@ class FirebaseConnect: NSObject {
         
     }
     
-    func a(){
-        
-        
-    }
     
     func uploadFile(){
         guard let uid = User.shared.uid else {

@@ -10,6 +10,10 @@ import CoreBluetooth
 import Firebase
 import UserNotifications
 
+protocol SearchTableViewControllerDelegate {
+    
+}
+
 class SearchTableViewController: UITableViewController {
 
     var central: Central?
@@ -38,11 +42,16 @@ class SearchTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        checkBlocks()
+        self.tableView.reloadData()
         
-        if let userBlocks = userDefault.value(forKey: "blocks") as? Array<String> {
+    }
+    
+    func checkBlocks(){
+        if let userBlocks = userDefault.value(forKey: "blocks") as? [String:String] {
             var i = 0
             for qualified in qualifieds {
-                for blockID in userBlocks {
+                for blockID in userBlocks.keys {
                     if qualified.uid == blockID {
                         self.qualifieds.remove(at: i)
                     }
@@ -50,8 +59,6 @@ class SearchTableViewController: UITableViewController {
                 i += 1
             }
         }
-        self.tableView.reloadData()
-        
     }
     
     func checkUserData(){
@@ -79,62 +86,32 @@ class SearchTableViewController: UITableViewController {
                  print("User didn't have match user")
                  return
              }
-             if let blockIDs = self.userDefault.value(forKey: "blocks") as? Array<String>  {
-                 let matchUserIdSet = Set(matchUser.keys)
-                 let blockUserIdSet = Set(blockIDs)
-                 let vaildUserIdSet = matchUserIdSet.subtracting(blockUserIdSet)
-                 let vailUserIds = Array(vaildUserIdSet)
-                 print(vailUserIds)
-                 for matchUserUID in vailUserIds {
-                     FirebaseConnect.shared.getTargetInfo(UID: matchUserUID) { targetResult, error in
-                         if let error = error {
-                             print("Fail to get match user info")
-                             print(error.localizedDescription)
-                             return
-                         }
-                         guard let target = targetResult?.data() else {
-                             print("Fail to get match user info")
-                             return
-                         }
-                         let name = target["username"] as! String
-                         let birthday = (target["birthday"] as! Timestamp).dateValue()
-                         let age = self.calculateAge(date: birthday)
-                         let interests = target["interests"] as! [String]
-                         let q = Qualified(name: name, age: age, interests: interests, uid: matchUserUID, chatUID: matchUser[matchUserUID]!)
-                         print(q)
-                         self.qualifieds.append(q)
-                         self.tableView.reloadData()
+             
+             for matchUserUID in matchUser.keys {
+                 FirebaseConnect.shared.getTargetInfo(UID: matchUserUID) { targetResult, error in
+                     if let error = error {
+                         print("Fail to get match user info")
+                         print(error.localizedDescription)
+                         return
                      }
-                 }
-             } else {
-                 for matchUserUID in matchUser.keys {
-                     FirebaseConnect.shared.getTargetInfo(UID: matchUserUID) { targetResult, error in
-                         if let error = error {
-                             print("Fail to get match user info")
-                             print(error.localizedDescription)
-                             return
-                         }
-                         guard let target = targetResult?.data() else {
-                             print("Fail to get match user info")
-                             return
-                         }
-                         let name = target["username"] as! String
-                         let birthday = (target["birthday"] as! Timestamp).dateValue()
-                         let age = self.calculateAge(date: birthday)
-                         let interests = target["interests"] as! [String]
-                         let q = Qualified(name: name, age: age, interests: interests, uid: matchUserUID, chatUID: matchUser[matchUserUID]!)
-                         print(q)
-                         self.qualifieds.append(q)
-                         self.tableView.reloadData()
+                     guard let target = targetResult?.data() else {
+                         print("Fail to get match user info")
+                         return
                      }
+                     let name = target["username"] as! String
+                     let birthday = (target["birthday"] as! Timestamp).dateValue()
+                     let age = self.calculateAge(date: birthday)
+                     let interests = target["interests"] as! [String]
+                     let q = Qualified(name: name, age: age, interests: interests, uid: matchUserUID, chatUID: matchUser[matchUserUID]!)
+                     print(q)
+                     self.qualifieds.append(q)
+                     self.checkBlocks()
+                     self.tableView.reloadData()
                  }
              }
          }
      }
     
-    func getMatchUser(matchs: [String]){
-        
-    }
     
     func calculateAge(date: Date) -> Int {
         let calendar = Calendar.current
@@ -159,6 +136,14 @@ class SearchTableViewController: UITableViewController {
                         assertionFailure("Fail to get target data")
                         return
                     }
+            
+            if let userBlocks = userDefault.value(forKey: "blocks") as? [String:String] {
+                for id in userBlocks.keys{
+                    if id == targetUID{
+                        return
+                    }
+                }
+            }
             
             print(targetUID)
             var isMatch = false
@@ -264,6 +249,7 @@ class SearchTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? TargetViewController {
             vc.target = self.qualifieds[self.tableView.indexPathForSelectedRow!.row]
+            vc.delegate = self
         }
     }
 }
@@ -308,6 +294,15 @@ extension SearchTableViewController {
     }
     
     
+}
+
+extension SearchTableViewController: TargetViewControllerDelegate{
+    func finishAddBlock() {
+        let alert = UIAlertController(title: "成功", message: "已經將使用者加入您的黑名單，你們不會再次配對到", preferredStyle: .alert)
+        let action = UIAlertAction(title: "確認", style: .default)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension UIViewController {

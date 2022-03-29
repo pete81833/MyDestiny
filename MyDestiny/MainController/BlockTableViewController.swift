@@ -1,30 +1,29 @@
 //
-//  ChatTableViewController.swift
+//  BlockTableViewController.swift
 //  MyDestiny
 //
-//  Created by 胡丕 on 2022/2/21.
+//  Created by 胡丕 on 2022/3/24.
 //
 
 import UIKit
-import Firebase
-import XCTest
 
-class ChatTableViewController: UITableViewController {
+class BlockTableViewController: UITableViewController {
 
-    let db = Firestore.firestore()
-    var chats: [String:String] = [:]
-    var target: Qualified?
+    var data = [String:String]()
+    var userDefult = UserDefaults()
+    var blackNames = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        if let blocks = userDefult.value(forKey: "blocks") as? [String:String] {
+            self.data = blocks
+            blackNames = Array(blocks.values)
+            tableView.reloadData()
+        }
+        
         
     }
-    
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -34,14 +33,14 @@ class ChatTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.chats.count
+        return data.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
-       
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = blackNames[indexPath.row]
+
         return cell
     }
     
